@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tipping Assistant</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .lottie-container {
+            text-align: center;
+            
+        }
+        lottie-player {
+            display: inline-block;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        label, input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background: #4CAF50;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background: #45a049;
+        }
+        #result {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tipping Assistant</h1>
+        <div class="lottie-container">
+            <lottie-player src="https://lottie.host/6eb97ef4-42d8-4acf-98e0-f5d939f54f02/hpXpMP7wzV.json" background="#fff" speed="0.5" style="width: 300px; height: 300px" loop autoplay direction="0"></lottie-player>
+        </div>
+        <form id="tip-form">
+            <label for="quality">Quality rating (0-10):</label>
+            <input type="number" id="quality" name="quality" required>
+            <label for="service">Service rating (0-10):</label>
+            <input type="number" id="service" name="service" required>
+            <input type="submit" value="Calculate Tip">
+        </form>
+        <h2 id="result"></h2>
+    </div>
+    <script>
+        $("#tip-form").submit(function(e) {
+            e.preventDefault();
+            $.post("/calculate", $(this).serialize(), function(data) {
+                $("#result").text("Recommended tip percentage: " + data.tip_percentage);
+            });
+        });
+    </script>
+</body>
+</html>
